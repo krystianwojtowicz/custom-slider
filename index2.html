@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link rel="stylesheet" href="owlcarousel/owl.carousel.min.css" />
+    <link rel="stylesheet" href="owlcarousel/owl.theme.default.min.css" /> -->
+    <title>Document</title>
+    <style>
+      .slider {
+        overflow: hidden;
+        position: relative;
+        height: 100px;
+        width: 100%;
+        white-space: nowrap;
+      }
+
+      .slide-track {
+        position: relative;
+        display: flex;
+        animation: none;
+        height: 100px;
+        width: 100%;
+      }
+
+      .slide {
+        flex-shrink: 0;
+        height: 100px;
+        width: auto;
+        display: inline-block;
+        background-color: #fff;
+        padding: 0 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slider">
+      <div class="slide-track" id="slideTrack">
+        <img src="img/29_British Council@2x.png" class="slide" alt="" id="1" />
+        <img src="img/28_Blackboard@2x.png" class="slide" alt="" id="2" />
+        <img src="img/27_DevSkiller@2x.png" class="slide" alt="" id="3" />
+        <img src="img/26_Solution@2x.png" class="slide" alt="" id="4" />
+        <img src="img/25_CoachWise@2x.png" class="slide" alt="" id="5" />
+        <img src="img/24_Ideo@2x.png" class="slide" alt="" id="6" />
+        <img
+          src="img/23_British Embassy Warsaw@2x.png"
+          class="slide"
+          alt=""
+          id="7"
+        />
+        <img src="img/22_Biedronka@2x.png" class="slide" alt="" id="8" />
+        <img src="img/21_Wellms@2x.png" class="slide" alt="" id="9" />
+        <img src="img/20_ReadSpeaker@2x.png" class="slide" alt="" id="10" />
+        <img src="img/19_Berlitz@2x.png" class="slide" alt="" id="11" />
+        <img src="img/18_eConsulting@2x.png" class="slide" alt="" id="12" />
+        <img src="img/17_aNewspring@2x.png" class="slide" alt="" id="13" />
+        <img src="img/16_Goodhabitz@2x.png" class="slide" alt="" id="14" />
+        <img src="img/15_Pearson@2x.png" class="slide" alt="" id="15" />
+        <img src="img/14_Talent Chase@2x.png" class="slide" alt="" id="16" />
+        <img src="img/13_No fluff Jobs@2x.png" class="slide" alt="" id="17" />
+        <img src="img/12_Ispring@2x.png" class="slide" alt="" id="18" />
+        <img src="img/11_iProVR@2x.png" class="slide" alt="" id="19" />
+        <img src="img/10_iPro@2x.png" class="slide" alt="" id="20" />
+        <img src="img/9_GoFluent@2x.png" class="slide" alt="" id="21" />
+        <img
+          src="img/8_Digital University@2x.png"
+          class="slide"
+          alt=""
+          id="22"
+        />
+        <img src="img/7_Articulate@2x.png" class="slide" alt="" id="23" />
+        <img src="img/6_Udemy@2x.png" class="slide" alt="" id="24" />
+        <img src="img/5_Linkedin@2x.png" class="slide" alt="" id="25" />
+        <img src="img/4_Cornerstone@2x.png" class="slide" alt="" id="26" />
+        <img src="img/3_Amazon@2x.png" class="slide" alt="" id="27" />
+        <img src="img/2_Pico@2x.png" class="slide" alt="" id="28" />
+        <img src="img/1_Microsoft@2x.png" class="slide" alt="" id="29" />
+      </div>
+    </div>
+
+    <script>
+      const slideAnimationSpeed = 1; // kontroluje prędkość przesuwania
+      const track = document.getElementById('slideTrack');
+      let slides = Array.from(track.children);
+      let widthsAll = 0;
+      const resetPosition = -600; // Punkt, w którym slajd zostanie przeniesiony na koniec
+      let move = true;
+      let startXPosition;
+
+      document.querySelectorAll('.slide').forEach(function (img) {
+        img.addEventListener('mousedown', function (event) {
+          event.preventDefault();
+        });
+      });
+
+      track.addEventListener('mousedown', function (event) {
+        move = false;
+        startXPosition = event.clientX; // Zapamiętaj pozycję X myszki w momencie kliknięcia
+      });
+
+      track.addEventListener('mousemove', function (event) {
+        if (!move) {
+          let endXPosition = event.clientX; // Pobierz aktualną pozycję X myszki
+          let difference = endXPosition - startXPosition; // Oblicz różnicę pozycji X
+          if (first.offsetLeft > 0) {
+            slides.forEach((e) => {
+              updateSlidePosition(e, -difference); // Zastosuj różnicę do aktualnej pozycji slidera
+            });
+            startXPosition = endXPosition; // Zaktualizuj pozycję startową do aktualnej pozycji myszki
+          }
+        }
+      });
+
+      track.addEventListener('mouseup', function () {
+        if (!move) {
+          move = true;
+          moveSlides();
+        }
+      });
+
+      function updateSlidePosition(slide, amount) {
+        let transformValue = slide.style.left.replace('px', '');
+        let newPosition = parseInt(transformValue) - amount;
+        // Resetowanie pozycji slajdu, jeśli przekroczył określony punkt
+        if (newPosition <= resetPosition) {
+          newPosition += widthsAll;
+        }
+        slide.style.left = `${newPosition}px`;
+      }
+
+      function moveSlides() {
+        if (move) {
+          slides.forEach((e) => {
+            updateSlidePosition(e, slideAnimationSpeed);
+          });
+
+          requestAnimationFrame(moveSlides);
+        }
+      }
+
+      function calcPositionAbsolute() {
+        slides.forEach((e) => {
+          e.style.position = 'absolute';
+          widthsAll += e.clientWidth;
+        });
+      }
+
+      function calcWidthSlides() {
+        slides.forEach((e) => {
+          // console.log(e);
+          // console.log(`Pozycja x: ${e.offsetLeft}px`);
+          // console.log(`Szerokość: ${e.clientWidth}px x ${e.clientHeight}px`);
+          e.style.left = `${e.offsetLeft}px`;
+        });
+        calcPositionAbsolute();
+        moveSlides();
+      }
+
+      setTimeout(calcWidthSlides, 100);
+    </script>
+  </body>
+</html>
