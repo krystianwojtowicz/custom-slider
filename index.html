@@ -81,6 +81,7 @@
     <script>
       const slideAnimationSpeed = 1; // kontroluje prędkość przesuwania
       const track = document.getElementById('slideTrack');
+      const track1 = document.getElementById('1');
       let slides = Array.from(track.children);
       let widthsAll = 0;
       const resetPosition = -600; // Punkt, w którym slajd zostanie przeniesiony na koniec
@@ -100,9 +101,15 @@
 
       track.addEventListener('mousemove', function (event) {
         if (!move) {
-          let endXPosition = event.clientX; // Pobierz aktualną pozycję X myszki
-          let difference = endXPosition - startXPosition; // Oblicz różnicę pozycji X
-          if (first.offsetLeft > 0) {
+          const leftmostElement = slides.reduce((leftmost, current) => {
+            return leftmost.offsetLeft < current.offsetLeft
+              ? leftmost
+              : current;
+          });
+
+          if (leftmostElement.offsetLeft < 0) {
+            let endXPosition = event.clientX; // Pobierz aktualną pozycję X myszki
+            let difference = endXPosition - startXPosition; // Oblicz różnicę pozycji X
             slides.forEach((e) => {
               updateSlidePosition(e, -difference); // Zastosuj różnicę do aktualnej pozycji slidera
             });
